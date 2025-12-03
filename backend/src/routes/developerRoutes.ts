@@ -1,5 +1,5 @@
 import { Router} from "express";
-import { createDeveloper, getAllDevelopers, getDevelopersByQuery } from "../controllers/developerController.ts";
+import { createDeveloper, getAllDevelopers, getDevelopersByQuery } from "../controllers/developerController.js";
 
 const router = Router();
 

@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { ENV } from "./lib/ENV.ts";
-import developerRoutes from  "./routes/developerRoutes.ts";
-import { connectDB } from "./config/db.ts";
+import { ENV } from "./lib/ENV.js";
+import developerRoutes from  "./routes/developerRoutes.js";
+import { connectDB } from "./config/db.js";
 
 const app = express();
 const PORT = ENV.PORT || 5000;
