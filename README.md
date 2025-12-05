@@ -1,75 +1,118 @@
-# Developer Directory App
+# 👨‍💻 Developer Directory App — Full-Stack Internship Task (Round 2)
 
-A full-stack web application built as part of the **Full Stack Internship Task Assessment for Talrn.com**.  
-This project enables adding, viewing, searching, and filtering developers with a clean UI and a fully deployed backend.
+A fully authenticated and production-ready **Developer Directory** platform built as part of the **Talrn.com Full-Stack Internship Assessment**.
 
----
-
-##  Live Demo
-
-Frontend: https://developer-directory-five.vercel.app/  
-Backend API: https://developer-directory-pnu6.onrender.com
+Users can **sign up, login, browse developers, view profiles, edit entries, search, filter, sort, delete records**, and access the system only after authentication. All features comply with Round-2 requirements.
 
 ---
 
-## 📌 Features
+## 🚀 Live Project Links
 
-### 🖥️ Frontend (React + TailwindCSS)
-- ✔ Add Developer Form with validation
-- ✔ Fields:
-  - Name
-  - Role (Frontend / Backend / Full-Stack)
-  - Tech Stack (comma-separated)
-  - Experience (years)
-- ✔ Developer listing in responsive UI
-- ✔ Search & Filter capabilities
-- ✔ Toast messages for success/error
-- ✔ Modern design & mobile-friendly layout
+- **Frontend (Vercel)**  
+  🔗 https://developer-directory-five.vercel.app/
+
+- **Backend API (Render)**  
+  🔗 https://developer-directory-pnu6.onrender.com
 
 ---
 
-### ⚙️ Backend (Node.js + Express + MongoDB)
+## ✨ Core Features (Mandated in Task 2)
 
-| Method | Endpoint            | Description                        |
-| ------ | ------------------- | ---------------------------------- |
-| POST   | `/api/developers`   | Add a new developer                |
-| GET    | `/api/developers`   | Get all developers with pagination |
-| GET    | `/api/developers/q` | Search/filter developers           |
-
-
-| Param       | Example           | Description                           |
-| ----------- | ----------------- | ------------------------------------- |
-| `role`      | `role=Frontend`   | Filter by role                        |
-| `techStack` | `techStack=React` | Filter by tech stack keyword          |
-| `page`      | `page=1`          | Page number for pagination (optional) |
-| `limit`     | `limit=10`        | Results limit per page (optional)     |
-
-
-- ✔ Deployed on Render
-- ✔ CORS configured for frontend access
-- ✔ Environment variables for secure deployment
+### 🔐 Authentication
+- JWT-based login & signup
+- Password hashing (bcrypt)
+- Protected routes (only logged-in users can view Developer Directory)
+- Logout + token handling
 
 ---
 
-## 🛠 Tech Stack
+### 🧑‍💼 Developer Profiles
+Each developer has a dedicated view page:
+- Name
+- Role (Frontend / Backend / Full-Stack)
+- Tech Stack (shown as tags)
+- Years of Experience
+- About / Description
+- Joining date
+- Optional photo upload
 
-| Category | Technology |
-|---------|------------|
-| Frontend | React, TypeScript, TailwindCSS, Material UI |
-| Backend | Node.js, Express, TypeScript |
+---
+
+### 🔍 Enhanced Developer Directory
+- Search by **Name** or **Tech Stack**
+- Filter by **Role**
+- Sort by **Experience** (ascending/descending)
+- Pagination implemented
+- Clean, modern UI using **MUI + TailwindCSS**
+
+---
+
+### 🛠 CRUD Operations (Secure + Validated)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Check Health of Server |
+| POST | `/api/auth/signup` | Register new user |
+| POST | `/api/auth/login` | Authenticate user |
+| POST | `/api/developers` | Create developer (protected) |
+| GET | `/api/developers` | Listing + Pagination (protected) |
+| GET | `/api/developers/q` | search + filters + pagination (protected) |
+| GET | `/api/developers/:id` | Fetch single profile (protected) |
+| PUT | `/api/developers/:id` | Edit a developer (protected) |
+| DELETE | `/api/developers/:id` | Delete developer (protected) |
+
+🧩 Input validation using **Zod**  
+🛡️ Global authentication middleware
+
+---
+
+## 🎨 UI / UX Enhancements
+- Toast notifications for success & errors
+- Fully responsive layout
+- Loading indicators for API calls
+- Error handling & fallback UI
+- Deployed with proper CORS & ENV configuration
+
+---
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|------|------------|
+| Frontend | React + TypeScript + TailwindCSS + Material UI |
+| Backend | Node.js + Express + TypeScript |
+| Auth | JWT + bcrypt |
 | Database | MongoDB Atlas |
-| Deployment | Vercel (Frontend), Render (Backend) |
+| Storage / Media | Cloudinary |
+| Deployment | Vercel (Frontend) + Render (Backend) |
 | Version Control | Git + GitHub |
 
 ---
 
-## ✨ Conclusion
+## 📝 Architecture Overview
 
-This project successfully meets all internship task requirements from Talrn.com:
+- Decoupled frontend–backend communication via REST API
 
-✔ Full Stack | ✔ Hosted | ✔ Filters | ✔ Pagination | ✔ Responsive UI
+- Clean folder structure & modular codebase
 
-✔ Toast Notifications | ✔ MongoDB | ✔ Clean Code | ✔ Proper README
+- MVC-style backend with reusable controller logic
+
+- Secure user-role design
+
+---
+
+## ✨ Accuracy Check vs Requirements
+
+| Requirement                             | Present in README                               | Confirmed Working |
+| --------------------------------------- | ----------------------------------------------- | ----------------- |
+| Authentication (JWT + Protected Routes) | ✅                                               | ✔️                |
+| CRUD with Validation                    | ✅                                               | ✔️                |
+| Profile Page                            | ✅                                               | ✔️                |
+| Sorting / Filtering                     | ❗*Filtering & search include in q endpoint — ✓* | ✔️                |
+| Pagination                              | 🟢 explicitly mentioned                         | ✔️                |
+| Deployment (Frontend + Backend)         | 🟢 both URLs provided                           | ✔️                |
+| UI/UX Enhancements                      | 🟢 listed                                       | ✔️                |
+
 
 ---
 
