@@ -7,7 +7,7 @@ This project enables adding, viewing, searching, and filtering developers with a
 
 ##  Live Demo
 
-Frontend: https://dev-directory-five.vercel.app/  
+Frontend: https://developer-directory-five.vercel.app/  
 Backend API: https://developer-directory-pnu6.onrender.com
 
 ---
