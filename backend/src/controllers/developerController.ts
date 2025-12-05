@@ -1,5 +1,5 @@
 import type { AuthRequest } from "../lib/types.ts";
-import DeveloperModel from "../models/DeveloperModel.ts";
+import DeveloperModel from "../models/DeveloperModel.js";
 import { type Request, type Response } from "express";
 
 export const createDeveloper = async (req: AuthRequest, res: Response) => {

@@ -1,7 +1,7 @@
 import { type Response, type NextFunction } from "express";
-import type { AuthRequest, JWTpayload } from "../lib/types.ts";
+import type { AuthRequest, JWTpayload } from "../lib/types.js";
 import jwt from "jsonwebtoken";
-import { ENV } from "../lib/ENV.ts";
+import { ENV } from "../lib/ENV.js";
 
 export const requireAuth = async( req:AuthRequest, res:Response, next:NextFunction ) => {
     try {

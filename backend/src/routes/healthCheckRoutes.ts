@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import cloudinary from "../config/cloudinary.ts";
+import cloudinary from "../config/cloudinary.js";
 
 export const checkHealthofServer = async (req: Request, res: Response) => {
     void req;

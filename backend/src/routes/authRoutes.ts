@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { login, signUp } from "../controllers/authController.ts";
-import { validateForm } from "../middleware/validateForm.ts";
-import { loginValidate, signupValidate } from "../lib/validation.ts";
+import { login, signUp } from "../controllers/authController.js";
+import { validateForm } from "../middleware/validateForm.js";
+import { loginValidate, signupValidate } from "../lib/validation.js";
 
 const router = Router();
 

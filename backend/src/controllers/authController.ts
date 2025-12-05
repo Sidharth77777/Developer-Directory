@@ -1,7 +1,7 @@
 import { type Request, type Response } from "express";
 import bcrypt from "bcryptjs";
-import UserModel from "../models/UserModel.ts";
-import { generateToken } from "../lib/generateToken.ts";
+import UserModel from "../models/UserModel.js";
+import { generateToken } from "../lib/generateToken.js";
 
 export const signUp = async(req:Request, res:Response) => {
     try {

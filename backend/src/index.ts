@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
-import { ENV } from "./lib/ENV.ts";
-import developerRoutes from  "./routes/developerRoutes.ts";
-import authRoutes from "./routes/authRoutes.ts"
-import { connectDB } from "./config/db.ts";
-import { requireAuth } from "./middleware/requireAuth.ts";
-import { checkHealthOfCloudinary, checkHealthofServer } from "./routes/healthCheckRoutes.ts";
+import { ENV } from "./lib/ENV.js";
+import developerRoutes from  "./routes/developerRoutes.js";
+import authRoutes from "./routes/authRoutes.js"
+import { connectDB } from "./config/db.js";
+import { requireAuth } from "./middleware/requireAuth.js";
+import { checkHealthOfCloudinary, checkHealthofServer } from "./routes/healthCheckRoutes.js";
 
 const app = express();
 const PORT = ENV.PORT || 5000;

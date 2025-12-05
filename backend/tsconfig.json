@@ -27,8 +27,8 @@
     "exactOptionalPropertyTypes": true,
 
     // NEED TO CHANGE THESE ON PRODUCTION
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
+    //"noEmit": true,
+    //"allowImportingTsExtensions": false,
 
     // Style Options
     // "noImplicitReturns": true,

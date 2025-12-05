@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ENV } from "./ENV.ts";
+import { ENV } from "./ENV.js";
 
 export const generateToken = (userId: string) => {
 

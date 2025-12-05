@@ -1,8 +1,8 @@
 import { Router} from "express";
-import { createDeveloper, deleteDeveloper, getAllDevelopers, getDeveloperById, getDevelopersByQuery, updateDeveloper } from "../controllers/developerController.ts";
-import { validateForm } from "../middleware/validateForm.ts";
-import { developerValidate, developerUpdateValidate } from "../lib/validation.ts";
-import upload from "../config/multer.ts";
+import { createDeveloper, deleteDeveloper, getAllDevelopers, getDeveloperById, getDevelopersByQuery, updateDeveloper } from "../controllers/developerController.js";
+import { validateForm } from "../middleware/validateForm.js";
+import { developerValidate, developerUpdateValidate } from "../lib/validation.js";
+import upload from "../config/multer.js";
 
 const router = Router();
 
