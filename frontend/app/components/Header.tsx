@@ -37,18 +37,18 @@ export default function Header() {
     }
 
     const storedEmail =
-  typeof window !== "undefined" ? localStorage.getItem("email") : "";
-const displayEmail =
-  storedEmail && storedEmail.length > 18
-    ? storedEmail.slice(0, 18) + "…"
-    : storedEmail;
+        typeof window !== "undefined" ? localStorage.getItem("email") : "";
+    const displayEmail =
+        storedEmail && storedEmail.length > 18
+            ? storedEmail.slice(0, 18) + "…"
+            : storedEmail;
 
 
     return (
         <Box
             sx={{
                 width: "100%",
-                px: { xs: 2, md: 3 },
+                px: { xs: 1, md: 3 },
                 py: { xs: 1.5, md: 2 },
                 display: "flex",
                 justifyContent: "space-between",
