@@ -26,8 +26,9 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    "noEmit": false,
-    //"allowImportingTsExtensions": true,
+    // NEED TO CHANGE THESE ON PRODUCTION
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
 
     // Style Options
     // "noImplicitReturns": true,

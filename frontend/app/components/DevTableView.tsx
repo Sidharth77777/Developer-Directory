@@ -1,66 +1,123 @@
 "use client";
 
-import {Table,TableHead,TableRow,TableCell,TableBody,Paper,Chip,TableContainer} from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableContainer,
+  Avatar,
+  Typography,
+  Box,
+  Paper,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { COLORS } from "@/lib/colors";
 
-export default function DevTableView({ developers }: any) {
+interface DevTableViewProps {
+  developers: any[];
+}
+
+const sliceText = (text: string, max = 80) =>
+  text?.length > max ? text.slice(0, 20) + "..." : text || "";
+
+export default function DevTableView({ developers }: DevTableViewProps) {
+  const router = useRouter();
+
   return (
     <TableContainer
       component={Paper}
       sx={{
-        bgcolor: "background.paper",
-        overflowX: "auto",
-        border: "1px solid rgba(255,255,255,0.08)",
+        bgcolor: COLORS.card,
+        //borderRadius: 3,
+        border: `1px solid ${COLORS.border}`,
       }}
     >
-      <Table sx={{ minWidth: 650 }}>
-        {/* Table Head */}
+      <Table>
         <TableHead>
-          <TableRow
-            sx={{
-              bgcolor: "rgba(255,255,255,0.08)",
-              "& th": { fontWeight: "bold", color: "#fff" },
-            }}
-          >
-            <TableCell>Name</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Tech Stack</TableCell>
-            <TableCell align="center">Experience</TableCell>
+          <TableRow>
+            <TableCell sx={{ color: COLORS.mutedForeground }}>Developer</TableCell>
+            <TableCell sx={{ color: COLORS.mutedForeground }}>Role</TableCell>
+            <TableCell sx={{ color: COLORS.mutedForeground }}>Experience</TableCell>
+            <TableCell sx={{ color: COLORS.mutedForeground }}>Tech stack</TableCell>
+            <TableCell sx={{ color: COLORS.mutedForeground }}>Description</TableCell>
           </TableRow>
         </TableHead>
-
-        {/* Table Body */}
         <TableBody>
-          {developers.map((dev: any) => (
-            <TableRow
-              key={dev._id}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                  cursor: "pointer",
-                },
-              }}
-            >
-              <TableCell sx={{ fontWeight: 500 }}>{dev.name}</TableCell>
-              <TableCell>{dev.role}</TableCell>
-              <TableCell>
-                <div className="flex flex-wrap gap-1">
-                  {dev.techStack.map((tech: string, i: number) => (
-                    <Chip
-                      key={i}
-                      label={tech}
-                      size="small"
+          {developers.map((dev) => {
+            const techText =
+              typeof dev.techStack === "string"
+                ? dev.techStack
+                : Array.isArray(dev.techStack)
+                ? dev.techStack.join(", ")
+                : "";
+
+            const photoSrc = dev.photoUrl || dev.photo || undefined;
+
+            return (
+              <TableRow
+                key={dev._id || dev.id}
+                onClick={() => router.push(`/dashboard/${dev._id || dev.id}`)}
+                sx={{
+                  transition: "all 0.25s ease",
+                  "&:hover": {
+                    outline: `1px solid ${COLORS.accent}`,
+                    outlineOffset: "-2px",
+                    bgcolor: COLORS.muted,
+                    cursor: "pointer",
+                    boxShadow: `0 0 6px ${COLORS.accent}`,
+                  },
+                }}
+              >
+                <TableCell>
+                  <Box className="flex items-center gap-2">
+                    <Avatar
+                      src={photoSrc}
+                      alt={dev.name}
                       sx={{
-                        bgcolor: "rgba(255,255,255,0.1)",
-                        color: "#fff",
-                        fontSize: "0.75rem",
+                        width: 32,
+                        height: 32,
+                        bgcolor: COLORS.muted,
+                        color: COLORS.accent,
+                        fontSize: "0.9rem",
+                        fontWeight: 600,
                       }}
-                    />
-                  ))}
-                </div>
-              </TableCell>
-              <TableCell align="center">{dev.experience} yrs</TableCell>
-            </TableRow>
-          ))}
+                    >
+                      {!photoSrc && dev.name ? dev.name[0]?.toUpperCase() : ""}
+                    </Avatar>
+                    <Box>
+                      <Typography sx={{ color: COLORS.foreground, fontWeight: 500 }}>
+                        {dev.name}
+                      </Typography>
+                      {dev.joiningDate && (
+                        <Typography
+                          variant="caption"
+                          sx={{ color: COLORS.mutedForeground }}
+                        >
+                          Joined: {new Date(dev.joiningDate).toLocaleDateString()}
+                        </Typography>
+                      )}
+                    </Box>
+                  </Box>
+                </TableCell>
+
+                <TableCell sx={{ color: COLORS.foreground }}>{dev.role}</TableCell>
+
+                <TableCell sx={{ color: COLORS.foreground }}>
+                  {dev.experience} yrs
+                </TableCell>
+
+                <TableCell sx={{ color: COLORS.mutedForeground }}>
+                  {sliceText(techText, 40)}
+                </TableCell>
+
+                <TableCell sx={{ color: COLORS.mutedForeground }}>
+                  {sliceText(dev.description, 80)}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

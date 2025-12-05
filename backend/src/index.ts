@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
-import { ENV } from "./lib/ENV.js";
-import developerRoutes from  "./routes/developerRoutes.js";
-import { connectDB } from "./config/db.js";
+import { ENV } from "./lib/ENV.ts";
+import developerRoutes from  "./routes/developerRoutes.ts";
+import authRoutes from "./routes/authRoutes.ts"
+import { connectDB } from "./config/db.ts";
+import { requireAuth } from "./middleware/requireAuth.ts";
+import { checkHealthOfCloudinary, checkHealthofServer } from "./routes/healthCheckRoutes.ts";
 
 const app = express();
 const PORT = ENV.PORT || 5000;
@@ -18,16 +21,18 @@ app.use(cors(
 ));
 app.use(express.json());
 
-// Checking GET request
-app.get("/", (req, res) => {
-    void req;
-    res.status(200).send("Server is running...");
-});
+// Checking Server Healths
+app.get("/", checkHealthofServer);
+app.get("/test-cloud", checkHealthOfCloudinary);
+
+
+// Auth Routes
+app.use("/api/auth", authRoutes);
 
 // Developer Routes
-app.use("/api/developers", developerRoutes);
+app.use("/api/developers", requireAuth , developerRoutes);
 
-// Start the server and connect to the database
+// Function to start the server and connect to the database
 const runServer = async (): Promise<void> => {
     try{
         await connectDB();
@@ -41,4 +46,5 @@ const runServer = async (): Promise<void> => {
     }
 };
 
+// Run the server
 runServer();

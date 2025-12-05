@@ -1,23 +1,53 @@
-"use client"
+"use client";
 
-import Box from '@mui/material/Box';
-import DevForm from './components/DevForm';
-import DevList from './components/DevList';
-import { useState } from 'react';
-import Footer from './components/Footer';
+import { Box } from "@mui/material";
+import { COLORS } from "@/lib/colors";
+import HeroSection from "./components/HeroSection";
+import FeatureCard from "./components/FeatureCard";
 
-export default function Home() {
-  const [refetch, setRefetch] = useState<boolean>(false)
-
+export default function HomePage() {
   return (
-    <Box>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: COLORS.background,
+        color: COLORS.foreground,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
 
-      <DevForm setRefetch={setRefetch} />
+      <Box
+        sx={{
+          flex: 1,
+          px: { xs: 3, md: 6 },
+          py: { xs: 6, md: 10 },
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1120px",
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: { xs: 5, md: 8 },
+            alignItems: { xs: "center", md: "center" },
+            justifyContent: "center",
+          }}
+        >
+          {/* Left side - hero text */}
+          
+          <HeroSection />
 
-      <DevList refetch={refetch} />
+          {/* Right side - feature card / stack overview */}
 
-      <Footer />
-      
+          <FeatureCard />
+
+        </Box>
+      </Box>
     </Box>
-  )
+  );
 }

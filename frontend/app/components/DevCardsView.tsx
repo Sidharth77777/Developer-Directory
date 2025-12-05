@@ -1,54 +1,122 @@
 "use client";
 
-import { Card, CardContent, Chip } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Typography,
+  Chip,
+  Box,
+  Stack,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { COLORS } from "@/lib/colors";
 
-export default function DevCardsView({ developers }: any) {
+interface DevCardsViewProps {
+  developers: any[];
+}
+
+const sliceText = (text: string, max = 110) =>
+  text?.length > max ? text?.slice(0, max) + "..." : text || "";
+
+export default function DevCardsView({ developers }: DevCardsViewProps) {
+  const router = useRouter();
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {developers.map((dev: any) => (
-        <Card
-          key={dev._id}
-          sx={{
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: "0px 0px 10px rgba(0,0,0,0.4)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            transition: "all 0.25s ease-in-out",
-            "&:hover": {
-              transform: "translateY(-4px)",
-              boxShadow: "0px 4px 20px rgba(0,0,0,0.7)",
-              borderColor: "rgba(255,255,255,0.25)",
-            },
-          }}
-        >
-          <CardContent>
-            <h3 className="text-xl font-semibold">{dev.name}</h3>
-            <p className="text-sm text-blue-400 font-medium mb-3">
-              {dev.role}
-            </p>
+    <Box className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {developers.map((dev) => {
+        const techArray =
+          typeof dev.techStack === "string"
+            ? dev.techStack
+                .split(",")
+                .map((t: string) => t.trim())
+                .filter(Boolean)
+            : dev.techStack || [];
 
-            <div className="flex flex-wrap gap-2 mb-4">
-              {dev.techStack.map((tech: string, index: number) => (
-                <Chip
-                  key={index}
-                  label={tech}
-                  size="small"
+        const photoSrc = dev.photoUrl || dev.photo || undefined;
+
+        return (
+          <Card
+            key={dev._id || dev.id}
+            onClick={() => router.push(`/dashboard/${dev._id || dev.id}`)}
+            sx={{
+              bgcolor: COLORS.card,
+              color: COLORS.cardForeground,
+              borderRadius: 3,
+              border: `1px solid ${COLORS.border}`,
+              transition: "all 0.25s ease",
+              cursor: "pointer",
+              "&:hover": {
+                borderColor: COLORS.accent,
+                boxShadow: `0 0 10px ${COLORS.accent}`,
+              },
+            }}
+          >
+            <CardHeader
+              avatar={
+                <Avatar
+                  src={photoSrc}
+                  alt={dev.name}
                   sx={{
-                    bgcolor: "rgba(255,255,255,0.12)",
-                    color: "#fff",
-                    fontSize: "0.75rem",
+                    bgcolor: COLORS.muted,
+                    color: COLORS.accent,
+                    fontWeight: 700,
                   }}
-                />
-              ))}
-            </div>
+                >
+                  {!photoSrc ? dev.name?.[0] : ""}
+                </Avatar>
+              }
+              title={
+                <Typography sx={{ fontWeight: 600, color: COLORS.foreground }}>
+                  {dev.name}
+                </Typography>
+              }
+              subheader={
+                <Typography
+                  variant="body2"
+                  sx={{ color: COLORS.mutedForeground }}
+                >
+                  {dev.role} • {dev.experience} yrs exp
+                </Typography>
+              }
+            />
 
-            <p className="text-xs opacity-70">
-              Experience:{" "}
-              <span className="font-semibold">{dev.experience}</span> years
-            </p>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+            <CardContent>
+              <Typography
+                variant="body2"
+                sx={{ mb: 1.5, color: COLORS.mutedForeground }}
+              >
+                {sliceText(dev.description, 30)}
+              </Typography>
+
+              <Stack direction="row" flexWrap="wrap" gap={1}>
+                {techArray.slice(0, 4).map((tech: string) => (
+                  <Chip
+                    key={tech}
+                    label={tech}
+                    size="small"
+                    sx={{
+                      bgcolor: COLORS.muted,
+                      color: COLORS.foreground,
+                      borderRadius: 999,
+                    }}
+                  />
+                ))}
+
+                {techArray.length > 4 && (
+                  <Typography
+                    variant="caption"
+                    sx={{ color: COLORS.mutedForeground }}
+                  >
+                    +{techArray.length - 4} more
+                  </Typography>
+                )}
+              </Stack>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </Box>
   );
 }

@@ -1,0 +1,18 @@
+import type { Request, Response, NextFunction } from "express";
+import type { ZodSchema } from "zod";
+
+export const validateForm = (schema: ZodSchema) =>
+    (req: Request, res: Response, next: NextFunction) => {
+        const result = schema.safeParse(req.body);
+        if (!result.success) {
+            const errors = result.error.issues.map(e => e.message);
+            return res.status(400).json({
+                success: false,
+                message: "Validation failed",
+                errors,
+            });
+        }
+
+        req.body = result.data;
+        next();
+    };

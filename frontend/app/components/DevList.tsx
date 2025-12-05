@@ -10,12 +10,15 @@ import {
   Paper,
   MenuItem,
   TextField,
+  Typography,
+  Box,
 } from "@mui/material";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import AppsIcon from "@mui/icons-material/Apps";
 import DevCardsView from "./DevCardsView";
 import DevTableView from "./DevTableView";
 import { DevListProps } from "@/types/types";
+import { COLORS } from "@/lib/colors";
 
 export default function DevList({ refetch }: DevListProps) {
   const [developers, setDevelopers] = useState<any[]>([]);
@@ -23,15 +26,17 @@ export default function DevList({ refetch }: DevListProps) {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [roleFilter, setRoleFilter] = useState<string>("All");
-  const [techFilter, setTechFilter] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>("");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [experienceSort, setExperienceSort] = useState<"" | "asc" | "desc">("");
 
   const fetchDevelopers = async (
     pageNum: number,
     role: string,
-    tech: string
+    search: string,
+    sortExp: "" | "asc" | "desc",
   ): Promise<void> => {
     try {
       setLoading(true);
@@ -41,7 +46,8 @@ export default function DevList({ refetch }: DevListProps) {
           page: pageNum,
           limit: 6,
           role: role !== "All" ? role : undefined,
-          techStack: tech || undefined,
+          search: search || undefined,
+          sortByExperience: sortExp || undefined,
         },
       });
 
@@ -55,22 +61,62 @@ export default function DevList({ refetch }: DevListProps) {
   };
 
   useEffect(() => {
-    fetchDevelopers(page, roleFilter, techFilter);
-  }, [page, refetch, roleFilter, techFilter]);
+    fetchDevelopers(page, roleFilter, searchFilter, experienceSort);
+  }, [page, refetch, roleFilter, searchFilter, experienceSort]);
 
   const handlePageChange = (event: any, value: number) => {
     setPage(value);
   };
 
   return (
-    <div className="max-w-6xl xl:mx-auto mx-6 mt-12">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h2 className="text-2xl font-bold">Developers List</h2>
-          <p className="text-sm opacity-70">Filter by role or tech stack</p>
-        </div>
+    <Box
+      className="max-w-6xl xl:mx-auto mx-6 mt-12"
+      sx={{ color: COLORS.foreground }}
+    >
+      <Box className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+        <Box>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 700, mb: 0.5, color: COLORS.foreground }}
+          >
+            Developers List
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: COLORS.mutedForeground }}
+          >
+            Filter by role, sort by experience, and search by name or tech stack
+          </Typography>
+        </Box>
 
-        <div className="flex flex-wrap gap-3 items-center">
+        <Box className="flex flex-wrap gap-3 items-center">
+          {/* Experience Sort */}
+          <TextField
+            select
+            label="Experience"
+            size="small"
+            value={experienceSort}
+            onChange={(e) => {
+              setExperienceSort(e.target.value as "" | "asc" | "desc");
+              setPage(1);
+            }}
+            sx={{
+              minWidth: 170,
+              "& .MuiOutlinedInput-root": {
+                bgcolor: COLORS.input,
+                color: COLORS.foreground,
+                borderRadius: 2,
+              },
+              "& .MuiInputLabel-root": {
+                color: COLORS.mutedForeground,
+              },
+            }}
+          >
+            <MenuItem value="">Default (Newest)</MenuItem>
+            <MenuItem value="desc">High → Low</MenuItem>
+            <MenuItem value="asc">Low → High</MenuItem>
+          </TextField>
+
           {/* Role Filter */}
           <TextField
             select
@@ -81,7 +127,17 @@ export default function DevList({ refetch }: DevListProps) {
               setRoleFilter(e.target.value);
               setPage(1);
             }}
-            sx={{ minWidth: 140 }}
+            sx={{
+              minWidth: 140,
+              "& .MuiOutlinedInput-root": {
+                bgcolor: COLORS.input,
+                color: COLORS.foreground,
+                borderRadius: 2,
+              },
+              "& .MuiInputLabel-root": {
+                color: COLORS.mutedForeground,
+              },
+            }}
           >
             <MenuItem value="All">All</MenuItem>
             <MenuItem value="Frontend">Frontend</MenuItem>
@@ -89,15 +145,25 @@ export default function DevList({ refetch }: DevListProps) {
             <MenuItem value="Full-Stack">Full-Stack</MenuItem>
           </TextField>
 
-          {/* Tech Stack Filter */}
+          {/* Search by name or tech */}
           <TextField
-            label="Tech stack"
-            placeholder="e.g. React"
+            label="Search"
+            placeholder="Name or tech (e.g. React)"
             size="small"
-            value={techFilter}
+            value={searchFilter}
             onChange={(e) => {
-              setTechFilter(e.target.value);
+              setSearchFilter(e.target.value);
               setPage(1);
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                bgcolor: COLORS.input,
+                color: COLORS.foreground,
+                borderRadius: 2,
+              },
+              "& .MuiInputLabel-root": {
+                color: COLORS.mutedForeground,
+              },
             }}
           />
 
@@ -106,7 +172,21 @@ export default function DevList({ refetch }: DevListProps) {
             value={viewMode}
             exclusive
             onChange={(_, val) => val && setViewMode(val)}
-            sx={{ bgcolor: "background.paper" }}
+            sx={{
+              bgcolor: COLORS.muted,
+              borderRadius: 999,
+              "& .MuiToggleButton-root": {
+                color: COLORS.mutedForeground,
+                border: "none",
+                "&.Mui-selected": {
+                  bgcolor: COLORS.primary,
+                  color: COLORS.primaryForeground,
+                },
+                "&:hover": {
+                  bgcolor: COLORS.secondary,
+                },
+              },
+            }}
           >
             <ToggleButton value="cards">
               <AppsIcon />
@@ -115,15 +195,30 @@ export default function DevList({ refetch }: DevListProps) {
               <TableRowsIcon />
             </ToggleButton>
           </ToggleButtonGroup>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {loading ? (
-        <div className="flex justify-center py-20">
+        <Box className="flex justify-center items-center flex-col py-20">
           <CircularProgress />
-        </div>
+          <Typography
+            sx={{ mt: 2, textAlign: "center", color: COLORS.mutedForeground }}
+          >
+            Connecting to server... This may take a few seconds on free hosting.
+          </Typography>
+        </Box>
       ) : developers.length === 0 ? (
-        <Paper className="text-center py-10">No developers found</Paper>
+        <Paper
+          className="text-center py-10"
+          sx={{
+            bgcolor: COLORS.card,
+            color: COLORS.mutedForeground,
+            borderRadius: 3,
+            border: `1px solid ${COLORS.border}`,
+          }}
+        >
+          No developers found
+        </Paper>
       ) : viewMode === "cards" ? (
         <DevCardsView developers={developers} />
       ) : (
@@ -131,14 +226,14 @@ export default function DevList({ refetch }: DevListProps) {
       )}
 
       {/* Pagination */}
-      <div className="flex justify-center mt-10">
+      <Box className="flex justify-center mt-10">
         <Pagination
           count={totalPages}
           page={page}
           onChange={handlePageChange}
           color="primary"
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

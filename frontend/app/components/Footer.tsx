@@ -1,33 +1,71 @@
 "use client";
 
 import { GitHub, X } from "@mui/icons-material";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Box, Typography, Stack, IconButton } from "@mui/material";
+import { COLORS } from "@/lib/colors";
 
 export default function Footer() {
-  return (
-    <footer className="w-full py-6 mt-12 border-t border-gray-700 text-center">
-      <p className="sm:text-sm text-xs opacity-75 mb-2">
-        © {new Date().getFullYear()} Developer Directory — Built by{" "}
-        <span className="font-semibold">Sidharth K S</span>
-      </p>
+	return (
+		<Box
+			component="footer"
+			sx={{
+				width: "100%",
+				py: 3,
+				borderTop: `1px solid ${COLORS.border}`,
+				bgcolor: COLORS.sidebarBackground,
+				color: COLORS.mutedForeground,
+				textAlign: "center",
+			}}
+		>
+			<Typography
+				variant="body2"
+				sx={{ fontSize: { xs: "0.75rem", sm: "0.85rem" }, opacity: 0.85 }}
+			>
+				© {new Date().getFullYear()} Developer Directory — Built by{" "}
+				<Box component="span" sx={{ fontWeight: 600, color: COLORS.foreground }}>
+					Sidharth K S
+				</Box>
+			</Typography>
 
-      <div className="flex justify-center gap-5 mt-3">
-        <Link
-          href="https://github.com/Sidharth77777/Developer-Directory/blob/main/README.md"
-          target="_blank"
-          className="hover:text-blue-400 transition-all hover:-translate-y-1"
-        >
-          <GitHub fontSize="medium" />
-        </Link>
+			<Stack
+				direction="row"
+				spacing={2.5}
+				justifyContent="center"
+				sx={{ mt: 2 }}
+			>
+				<IconButton
+					component={NextLink}
+					href="https://github.com/Sidharth77777/Developer-Directory/blob/main/README.md"
+					target="_blank"
+					sx={{
+						color: COLORS.accent,
+						transition: "all 0.2s ease",
+						"&:hover": {
+							transform: "translateY(-3px)",
+							color: COLORS.chart2,
+						},
+					}}
+				>
+					<GitHub fontSize="medium" />
+				</IconButton>
 
-        <Link
-          href="https://x.com/cryptoSid1564"
-          target="_blank"
-          className="hover:text-blue-400 transition-all hover:-translate-y-1"
-        >
-          <X fontSize="medium" />
-        </Link>
-      </div>
-    </footer>
-  );
+				<IconButton
+					component={NextLink}
+					href="https://x.com/cryptoSid1564"
+					target="_blank"
+					sx={{
+						color: COLORS.accent,
+						transition: "all 0.2s ease",
+						"&:hover": {
+							transform: "translateY(-3px)",
+							color: COLORS.chart2,
+						},
+					}}
+				>
+					<X fontSize="medium" />
+				</IconButton>
+			</Stack>
+		</Box>
+	);
 }
