@@ -89,6 +89,72 @@ Each developer has a dedicated view page:
 
 ---
 
+## 🧩 Installation & Setup (Local Development)
+
+# Clone the Repository
+
+```bash
+git clone https://github.com/Sidharth77777/Developer-Directory.git
+cd Developer-Directory
+```
+
+# ⚙️ Backend Setup (Node.js + Express + TypeScript)
+
+Navigate to backend folder:
+```bash
+cd backend
+npm install
+```
+
+Create a .env file inside /backend:
+```bash
+PORT=5000
+FRONTEND_ORIGIN=http://localhost:3000
+MONGODB_URI=<Your MongoDB Atlas URI>
+JWT_SECRET=<StrongSecretKey>
+CLOUDINARY_CLOUD_NAME=<CloudinaryCloudName>
+CLOUDINARY_API_KEY=<CloudinaryApiKey>
+CLOUDINARY_API_SECRET=<CloudinaryApiSecret>
+```
+
+Start backend:
+```bash
+npm run dev
+```
+
+Backend runs at:
+➡ http://localhost:5000/
+
+
+# ⚙️ Frontend Setup (Next.js + Tailwind + MUI)
+
+Navigate to frontend folder:
+```bash
+cd ../frontend
+npm install
+```
+
+Create a .env.local file inside /frontend:
+```bash
+NEXT_PUBLIC_SERVER_URL=http://localhost:5000
+```
+
+Start frontend:
+```bash
+npm run dev
+```
+
+Frontend runs at:
+➡ http://localhost:3000/
+
+
+✔ Ready to Use!
+
+Login ➝ Add Developers ➝ View & Manage Profiles
+All secure routes require user authentication 🔐
+
+---
+
 ## 📝 Architecture Overview
 
 - Decoupled frontend–backend communication via REST API
