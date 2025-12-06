@@ -151,6 +151,7 @@ Frontend runs at:
 ✔ Ready to Use!
 
 Login ➝ Add Developers ➝ View & Manage Profiles
+
 All secure routes require user authentication 🔐
 
 ---
